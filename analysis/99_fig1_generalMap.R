@@ -103,6 +103,10 @@ mapPoints(longitude = lon,
           latitude = lat,
           col = typecol,
           pch = typepch)
+## Prince 5 bounding box
+mapPolygon(longitude = prince5Polygon[['longitude']],
+           latitude = prince5Polygon[['latitude']],
+           lwd = 1.4)
 # label
 mtext('B.)', side = 3, adj = 0, cex = 4/5, line = 0.3, font = 2)
 ## bar plot of total number of stations per year, color coded by type
