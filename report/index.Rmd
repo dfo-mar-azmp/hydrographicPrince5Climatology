@@ -28,7 +28,7 @@ author_footnote: "Email: First.Author@dfo-mpo.gc.ca | telephone: (250) 756-5555"
 abstract: |
   The Atlantic Zone Monitoring Program began in year 1998. It proposed six fixed stations across the Atlantic zone to be sampled every two weeks to resolve dynamics at a finer timescale than the seasonal regional scale surveys. Two stations were included in the Maritimes region, one of them being Prince 5, which is located outside of Passamaquoddy Bay, New Brunswick, Canada in the Bay of Fundy. The depth binned daily and monthly temperature, salinity, and density as well as daily and monthly indicators of near-surface temperature, near-surface salinity, stratification, and mixed layer depths for the 1991 to 2020 climatology reference period are calculated to support annual reporting on variability. Details on data acquisition and coverage are also provided.
 french_abstract: |
-  Voici le résumé. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  Le Programme de monitorage de la zone Atlantique a débuté en 1998. Il proposait six stations fixes réparties dans la zone Atlantique, échantillonnées toutes les deux semaines, afin de caractériser la dynamique à des échelles temporelles plus fines que celles couvertes par les relevés saisonniers régionaux. Deux stations ont été incluses dans la région des Maritimes, l’une d’entre elles est Prince 5, située à l’extérieur de la baie de Passamaquoddy, au Nouveau-Brunswick, au Canada, dans la baie de Fundy. Les températures, salinités et densités quotidiennes et mensuelles regroupées par tranches de profondeur, ainsi que les indicateurs quotidiens et mensuels de la température près de la surface, de la salinité près de la surface, de la stratification et de la profondeur de la couche de mélange, pour la période de référence climatologique 1991–2020, sont calculés afin d’appuyer les rapports annuels sur la variabilité. Des détails sur l’acquisition et la couverture des données sont également fournis.
 # `show_continued_text` is a logical which, if `true`, places
 # "Continued on the next page..." and "...Continued from the previous page" or
 # the french equivalents (if `french` = `true`) on all long tables created
@@ -43,9 +43,9 @@ output:
    # copy_sty is a toggle to copy the style file from the csasdown package every time you compile
    # the document. If false, any changes you have made to the style file in your project
    # will remain between compilations. If true, your changes will be lost when you compile
-   copy_sty: true
+   copy_sty: false
    # line_nums is a toggle to show line numbers on the left side of the page. 
-   line_nums: true
+   line_nums: false
    # line_nums_mod represents showing every Nth line if line_nums is true
    line_nums_mod: 1
    # lot_lof is a toggle to show/not show the lists of tables and figures at the
