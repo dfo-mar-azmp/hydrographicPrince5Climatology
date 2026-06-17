@@ -1,0 +1,136 @@
+# Figures {#sec:figures}
+
+(ref:fig-map) A.) A map of the Maritimes region Atlantic Zone Monitoring Program core transects, as labelled, with Prince 5. B.) A close up map of Prince 5 with the bounding box used to collate data, with the locations of the collated data which are distinguished by data type. C.) The annual total number of occupations, color coded by data type. D.) The sampling throughout the year, indicated by year day, color coded. 
+
+```{r map, fig.cap="(ref:fig-map)", out.width="90%"}
+<<analysisPath>>
+knitr::include_graphics(path = paste(figurePath, '99_fig1_generalMap.png', sep = '/'))
+```
+
+(ref:fig-totalobsperbin) Total number of observations at each depth bin for the 1981 to 2010 (top row) and 1991 to 2020 (middle row) climatology reference periods, and the ratio of the total number of observations of the 1991 to 2020 reference period to the 1981 to 2010 reference period (bottom row) for temperature (left column), salinity (middle column), and density (right column).
+
+```{r totalobsperbin, fig.cap="(ref:fig-totalobsperbin)", out.width="90%"}
+<<analysisPath>>
+knitr::include_graphics(path = paste(figurePath, '99_nObsPerDepthBin_b.png', sep = '/'))
+```
+
+
+```{r getDailyFitFigures}
+<<analysisPath>>
+# get figures
+figures <- list.files(path = figurePath,
+                      pattern = "04a_dailyClimatologyFit.*",
+                      full.names = TRUE)
+# get depth ranges
+depthranges <- gsub("04a_dailyClimatologyFit_(.*)\\.png", '\\1', x = basename(figures))
+depthssplt <- strsplit(depthranges, split = 'to')
+startdepth <- as.numeric(unlist(lapply(depthssplt, function(k) k[1])))
+enddepth <- as.numeric(unlist(lapply(depthssplt, function(k) k[2])))
+## order depth, and order variables
+o <- order(startdepth)
+startdepth <- startdepth[o]
+enddepth <- enddepth[o]
+figures <- figures[o]
+```
+
+\begin{landscapepage}
+\begin{centering}
+```{r dailyFit, fig.cap=paste(sprintf("\\label{%s}", paste('dailyFit', startdepth, sep = '_')), "The", paste0(startdepth, 'm'), "to", paste0(enddepth, 'm'), "depth bin total number of observations per year day for the 1981 to 2010 (top row) and the 1991 to 2020 (third row) reference period and the scatter plot of data, color coded by year, with the mean (thick black line) and $\\pm$ 1SD (dashed black line) local polynomial regression fits for the 1981 to 2010 (second row) and the 1991 to 2020 (bottom row) reference period for temperature (left column), salinity (middle column), and density (right column)."), results='asis', message=FALSE, echo=FALSE, warning=FALSE, out.width="90%"}
+knitr::include_graphics(figures)
+```
+\end{centering}
+\end{landscapepage}
+
+(ref:fig-dailyClimatologySection) Section plot of the daily temperature (left column), salinity (middle column), and density (right column) climatology for the 1981 to 2010 reference period (top row) and 1991 to 2020 reference period (middle row). The quantized difference between the reference periods, the 1991 to 2020 minus the 1981 to 2010 reference period, of the daily climatology (bottom row).
+
+\begin{landscapepage}
+\begin{centering}
+```{r dailyClimatologySection, out.width = "100%", fig.cap = "(ref:fig-dailyClimatologySection)"}
+<<analysisPath>>
+knitr::include_graphics(path = paste(figurePath, '03_sectionDailyClimatologyAndDifference.png', sep = '/'))
+```
+\end{centering}
+\end{landscapepage}
+
+(ref:fig-nprofilespermonth) Monthly number of occupations for both climatology reference periods for temperature (left), salinity (middle), and density (right).
+
+\begin{landscapepage}
+\begin{centering}
+```{r nprofilespermonth, out.width="90%", fig.cap="(ref:fig-nprofilespermonth)"}
+<<analysisPath>>
+knitr::include_graphics(path = paste(figurePath, '06c_numberProfilesPerMonth.png', sep = '/'))
+```
+\end{centering}
+\end{landscapepage}
+
+```{r getMonthlyProfileFigures}
+<<analysisPath>>
+# get figures
+figures <- list.files(path = figurePath,
+                      pattern = "06_monthlyClimatologyProfiles.*",
+                      full.names = TRUE)
+# get month
+month <- as.numeric(gsub("06_monthlyClimatologyProfiles_(.*)\\.png", '\\1', x = basename(figures)))
+## order month
+o <- order(month)
+month <- month[o]
+figures <- figures[o]
+monthName <- month.name[month]
+```
+
+```{r monthlyFit, fig.cap=paste(sprintf("\\label{%s}", paste("monthlyFit", month, sep = '_')), "The", monthName, "number of observations for each climatology reference period, as indicated by the label on the top axis, color coded by year (top row). Mean profiles (thick line) and the $\\pm$ 0.5SD (indicated by shading) for the 1981 to 2010 reference period (red) and 1991 to 2020 reference period (blue) (middle row). Thin lines, color coded by year, are the profile observations that were used in the mean and standard deviation calculations.The difference, 1991 to 2020 minus 1981 to 2010, of the two mean profiles and $\\pm$ 0.5SD for temperature (bottom left), salinity (bottom middle), and density (bottom right). Vertical thin black line denotes a difference of zero."), results='asis', message=FALSE, echo=FALSE, warning=FALSE, out.width="85%"}
+knitr::include_graphics(figures)
+```
+
+(ref:fig-monthlyClimatologySection) Section plot of the monthly temperature (left column), salinity (middle column), and density (right column) climatology for the 1981 to 2010 reference period (top row) and 1991 to 2020 reference period (middle row). The quantized difference between the reference periods, the 1991 to 2020 minus the 1981 to 2010 reference period, of the monthly climatology (bottom row).
+
+\begin{landscapepage}
+\begin{centering}
+```{r monthlyClimatologySection, out.width = "100%", fig.cap = "(ref:fig-monthlyClimatologySection)"}
+<<analysisPath>>
+knitr::include_graphics(path = paste(figurePath, '06b_sectionMonthlyClimatologyAndDifference.png', sep = '/'))
+```
+\end{centering}
+\end{landscapepage}
+
+
+```{r getIndicatorFigures}
+<<analysisPath>>
+# get figures
+intdepths <- '5to50'
+figures <- list.files(path = figurePath,
+                      pattern = paste0("07a_depthAverageClimatology_.*_", intdepths, '\\.png'),
+                      full.names = TRUE)
+# get variable
+figureVariable <- gsub(paste0("07a_depthAverageClimatology_(.*)_", intdepths, '\\.png'), 
+                       '\\1', 
+                       x = basename(figures))
+## define order
+variableOrder <- c('integratedTemperature', 
+                   'integratedSalinity',
+                   'stratification',
+                   'stratificationIndex')
+o <- unlist(lapply(variableOrder, function(k) which(figureVariable == k)))
+figures <- figures[o]
+figureVariable <- figureVariable[o]
+figureVariableText <- tolower(gsub('([[:upper:]])', ' \\1', figureVariable))
+figureIntDepthText <- gsub('(\\d+)to(\\d+)', '\\1 to \\2m,', intdepths)
+```
+
+\begin{landscapepage}
+\begin{centering}
+```{r indicatorFigures, fig.cap=paste(sprintf("\\label{%s}", paste("indicator", figureVariable, sep = '_')), "The", figureVariableText, ifelse(grepl(pattern = 'integrated', x = figureVariableText), 'over', 'calculated between'),"depths", figureIntDepthText, " from left to right, the total number of calculated values per year day, the daily mean local polynomial regression fits (thick black line) and $\\pm$0.5SD (dashed black lines) with a scatter plot of the calculated values colour coded by year, the monthly mean (thick black line) and $\\pm$0.5SD (dashed black lines) with a scatter plot of the calculated values colour coded by year, and the total number of observations per month for the 1981 to 2010 (top row) and 1991 to 2020 (middle row) climatology reference periods. The difference (1991 to 2020 minus the 1981 to 2010) of the climatology reference periods mean (thick black line) and the propagated uncertainty (dashed black lines) for the daily and monthly fits (bottom row)."), results='asis', message=FALSE, echo=FALSE, warning=FALSE, out.width="100%"}
+knitr::include_graphics(figures)
+```
+\end{centering}
+\end{landscapepage}
+
+
+\begin{landscapepage}
+\begin{centering}
+```{r indicatorMLD, out.width = "100%", fig.cap = paste(sprintf("\\label{%s}", "indicator_MLD"), "The mixed layer depth, from left to right, total number of calculated values per year day, daily mean local polynomial regression fits (thick black line) and $\\pm$0.5SD (dashed black lines) with a scatter plot of the calculated values colour coded by year, monthly mean (thick black line) and $\\pm$0.5SD (dashed black lines) with a scatter plot of the calculated values colour coded by year, and total number of observations per month for the 1981 to 2010 (top row) and 1991 to 2020 (middle row) climatology reference periods. The difference (1991 to 2020 minus the 1981 to 2010) of the climatology reference periods mean (thick black line) and the propagated uncertainty (dashed black lines) for the daily and monthly fits (bottom row).")}
+<<analysisPath>>
+knitr::include_graphics(path = paste(figurePath, '09a_mixedLayerDepthClimatology.png', sep = '/'))
+```
+\end{centering}
+\end{landscapepage}

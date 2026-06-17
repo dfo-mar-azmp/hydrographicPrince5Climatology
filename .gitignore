@@ -47,3 +47,21 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# any pdf
+*.pdf
+
+# any produced data files
+analysis/*.rda
+analysis/netCDFclimatology
+analysis/*.nc
+
+# any figures
+analysis/figures
+
+# any data
+analysis/data
+
+# specific files that define sensitive info
+analysis/00_arcPath.R
+analysis/00_databaseInfo.R

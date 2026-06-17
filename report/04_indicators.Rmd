@@ -1,0 +1,94 @@
+# Derived Indicators {#sec:indicators}
+
+```{r textForIndicatorNobs}
+<<analysisPath>>
+load(paste(dataPath, 'depthAverageClimatologyDailyScatter_5to50.rda', sep = '/'))
+# define variables
+vars <- c('integratedTemperature', 'integratedSalinity',
+          'stratification', 'stratificationIndex')
+nout <- vector(mode = 'list', length = length(depthAverageClimatology))
+ntot <- vector(mode = 'list', length = length(depthAverageClimatology))
+for(ic in 1:length(depthAverageClimatology)){
+  d <- depthAverageClimatology[[ic]][['dailyData']]
+  # get total profiles
+  ntotal <- dim(d)[1]
+  ## save
+  ntot[[ic]] <- ntotal
+  # get total number calculated variables for each variable
+  nobs <- lapply(vars, function(k) length(which(!is.na(d[[k]]))))
+  names(nobs) <- vars
+  ## save
+  nout[[ic]] <- nobs
+}
+# name ntot and nout by minimum climatology year
+minClimYear <- unlist(lapply(depthAverageClimatology, function(k) min(k[['climatologyYears']])))
+## name lists
+names(ntot) <- minClimYear
+names(nout) <- minClimYear
+```
+
+## Depth average
+
+### Methods {#sec:depthAverageMethods}
+
+Each profile was vertically binned from 5m to 90m with a tolerance of 5m, such that set intervals are open on the left and closed on the right. For the depth average temperature and salinity, profiles were integrated over the 5m to 50m bins, with the criteria that at least 2 data points are within the interval. The daily climatology for both reference periods using the calculated depth average values were fitted against the year-day with a local polynomial regression to provide an estimate of the mean and standard deviation using the same parameters as described in Section \@ref(sec:hydroDailyMethods). The monthly climatology for both reference periods were calculated by taking the monthly mean and standard deviation of the calculated depth average values.
+
+### Results
+
+For the 1981 to 2010 climatology reference period, of the `r ntot[['1981']]` profiles, depth average temperature was calculated for `r nout[['1981']][['integratedTemperature']]` profiles and `r nout[['1981']][['integratedSalinity']]` for salinity. For the 1991 to 2020 climatology reference period, of the `r ntot[['1991']]` profiles, depth average temperature was calculated for `r nout[['1991']][['integratedTemperature']]` profiles and `r nout[['1991']][['integratedSalinity']]` for salinity. Observation spread throughout the year, by day and month, along with the daily and monthly climatology for both reference periods are provided for temperature (Figure \ref{indicator_integratedTemperature}) and salinity (Figure \ref{indicator_integratedSalinity}).
+
+## Stratification
+
+### Methods
+
+As done for the depth average metrics, Section \@ref(sec:depthAverageMethods), each profile was vertically binned. The stratification was calculated for each individual profile, which is defined as the difference between the density at the 5m and 50m bins. The daily climatology for both reference periods using the calculated stratification values were fitted against the year-day with a local polynomial regression to provide an estimate of the mean and standard deviation using the same parameters as described in Section \@ref(sec:hydroDailyMethods). The monthly climatology for both reference periods were calculated by taking the monthly mean and standard deviation of the calculated stratification.
+
+### Results
+
+For the 1981 to 2010 climatology reference period, of the `r ntot[['1981']]` profiles, stratification was calculated for `r nout[['1981']][['stratification']]` profiles. For the 1991 to 2020 climatology reference period, of the `r ntot[['1991']]` profiles, stratification was calculated for `r nout[['1991']][['stratification']]` profiles. Observation spread throughout the year, by day and month, along with the daily and monthly climatology for both reference periods are provided (Figure \ref{indicator_stratification}).
+
+## Stratification Index
+
+### Methods
+
+As done for the depth average metrics, Section \@ref(sec:depthAverageMethods), each profile was vertically binned. To calculate the stratification index for each profile, the mean of the density values within 0.5m of 5m and 50m were calculated. The difference between these two values were divided by the difference of the mean bin depths. If the calculated stratification index was less than zero, the process was repeated with a threshold of 1m. The daily climatology for both reference periods using the calculated stratification index values were fitted against the year-day with a local polynomial regression to provide an estimate of the mean and standard deviation using the same parameters as described in Section \@ref(sec:hydroDailyMethods). The monthly climatology for both reference periods were calculated by taking the monthly mean and standard deviation of the calculated stratification index.
+
+### Results
+
+For the 1981 to 2010 climatology reference period, of the `r ntot[['1981']]` profiles, stratification was calculated for `r nout[['1981']][['stratificationIndex']]` profiles. For the 1991 to 2020 climatology reference period, of the `r ntot[['1991']]` profiles, stratification was calculated for `r nout[['1991']][['stratificationIndex']]` profiles. Observation spread throughout the year, by day and month, along with the daily and monthly climatology for both reference periods are provided (Figure \ref{indicator_stratificationIndex}).
+
+## Mixed layer depth
+
+### Methods
+
+The mixed layer depth was calculated on profiles in their original resolution. The mixed layer is defined as the depth at which the density at 5m is exceeded by 0.03kg/m$^3$.
+
+### Results
+
+```{r textForMLDNobs}
+<<analysisPath>>
+load(paste(dataPath, 'mixedLayerDepthClimatologyDailyScatter.rda', sep = '/'))
+# define variables
+vars <- c('mixedLayerDepthDefault')
+nout <- vector(mode = 'list', length = length(mixedLayerDepthClimatology))
+ntot <- vector(mode = 'list', length = length(mixedLayerDepthClimatology))
+for(ic in 1:length(mixedLayerDepthClimatology)){
+  d <- mixedLayerDepthClimatology[[ic]][['dailyData']]
+  # get total profiles
+  ntotal <- dim(d)[1]
+  ## save
+  ntot[[ic]] <- ntotal
+  # get total number calculated variables for each variable
+  nobs <- lapply(vars, function(k) length(which(!is.na(d[[k]]))))
+  names(nobs) <- vars
+  ## save
+  nout[[ic]] <- nobs
+}
+# name ntot and nout by minimum climatology year
+minClimYear <- unlist(lapply(mixedLayerDepthClimatology, function(k) min(k[['climatologyYears']])))
+## name lists
+names(ntot) <- minClimYear
+names(nout) <- minClimYear
+```
+
+For the 1981 to 2010 climatology reference period, of the `r ntot[['1981']]` profiles, the mixed layer depth was calculated for `r nout[['1981']][['mixedLayerDepthDefault']]` profiles. For the 1991 to 2020 climatology reference period, of the `r ntot[['1991']]` profiles, the mixed layer depth was calculated for `r nout[['1991']][['mixedLayerDepthDefault']]` profiles. Observation spread throughout the year, by day and month, along with the daily and monthly climatology for both reference periods are provided (Figure \ref{indicator_MLD}).

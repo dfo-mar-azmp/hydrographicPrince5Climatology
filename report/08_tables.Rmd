@@ -1,0 +1,16 @@
+# Tables {#sec:tables}
+
+```{r boundingBoxData}
+prince5Polygon <- data.frame(longitude = c(-66.9, -66.9, -66.6, -66.6),
+                             latitude = c(44.8, 45, 45, 44.8))
+df <- data.frame(Latitude = prince5Polygon[['latitude']],
+                 Longitude = prince5Polygon[['longitude']])
+```
+
+(ref:tab-boundingBox) Coordinates for the vertices defining the bounding box used to extract data for Prince 5.
+
+```{r boundingBoxTable, results = 'asis', message = FALSE}
+csasdown::csas_table(x = df,
+                     format = 'latex',
+                     caption = "(ref:tab-boundingBox)")
+```

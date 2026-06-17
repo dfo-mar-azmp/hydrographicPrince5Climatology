@@ -1,0 +1,113 @@
+# Hydrographic {#sec:hydrographic}
+```{r analysisPath}
+path <- '../analysis'
+makeDirs <<- FALSE
+source(paste(path, '00_setupFile.R', sep = '/'))
+figurePath <- paste0(path,
+                    gsub('\\.(.*)', '\\1', destDirFigures))
+dataPath <- paste0(path,
+                    gsub('\\.(.*)', '\\1', destDirData))
+```
+
+```{r textForNobs}
+<<analysisPath>>
+load(paste(dataPath, 'nout.rda', sep = '/')) # output from 99_plotNObsPerDepthBin_b.R, nout and ratout
+minclimyear <- unlist(lapply(nout, function(k) min(k[['climatologyYears']])))
+uclimyear <- unique(minclimyear)
+percentCoverageText <- vector(mode = 'list', length = length(uclimyear))
+percentZeroText <- vector(mode = 'list', length = length(uclimyear))
+for(ic in 1:length(uclimyear)){
+  climlook <- uclimyear[ic]
+  ok <- minclimyear %in% climlook
+  d <- nout[ok]
+  totalnvar <- paste0('n', substr(climlook, 3, 4))
+  subnvar <- switch(as.character(climlook),
+                    "1981" = "1981-1990",
+                    "1991" = "2011-2020")
+  # get percent coverage text
+  vartext <- NULL
+  varzerotext <- NULL
+  for(id in 1:length(d)){
+    dd <- d[[id]]
+    ddat <- dd[['data']]
+    perc <- (ddat[[subnvar]] / ddat[[totalnvar]]) * 100
+    okp <- perc != 0
+    var <- ifelse(dd[['variable']] == 'sigmaTheta', 'density', dd[['variable']])
+    vartext <- c(vartext,
+                 paste(paste(c(paste0(sprintf("%.2f", min(perc[okp])), '\\%'),
+                               paste0(sprintf("%.2f", max(perc[okp])), '\\%')),
+                             collapse = ' to '),
+                       'for', var))
+    nzero <- length(which(!okp))
+    if(nzero < 10){
+      nzerotext <- switch(as.character(nzero),
+                          '0' = 'zero',
+                          '1' = 'one',
+                          '2' = 'two',
+                          '3' = 'three',
+                          '4' = 'four',
+                          '5' = 'five',
+                          '6' = 'six',
+                          '7' = 'seven',
+                          '8' = 'eight',
+                          '9' = 'nine')
+    } else {
+      nzerotext <- nzero
+    }
+    varzerotext <- c(varzerotext, paste(paste(nzerotext, 'bins'),
+                                        'for', var))
+  }
+  # output percent coverage
+  percentCoverageText[[ic]] <- paste(paste(vartext[1:(length(vartext)-1)], collapse = ', '),
+                                     vartext[length(vartext)], sep = ', and ')
+  # output n bin with zero observations
+  percentZeroText[[ic]] <- paste(paste(varzerotext[1:(length(varzerotext)-1)], collapse = ', '),
+                                     varzerotext[length(varzerotext)], sep = ', and ')
+}
+
+# get ratio range
+varratiotext <- NULL
+for(ir in 1:length(ratout)){
+  r <- ratout[[ir]]
+  rd <- r[['data']]
+  rat <- rd[['ratio']]
+  rvar <- ifelse(r[['variable']] == 'sigmaTheta', 'density', r[['variable']])
+  varratiotext <- c(varratiotext,
+                 paste(paste(c(sprintf("%.2f", min(rat)),
+                               sprintf("%.2f", max(rat))),
+                             collapse = ' to '),
+                       'for', rvar))
+}
+ratioText <- paste(paste(varratiotext[1:(length(varratiotext)-1)], collapse = ', '),
+                                     varratiotext[length(varratiotext)], sep = ', and ')
+```
+
+For both the daily and monthly hydrographic climatology, the data was vertically binned from 5m to 90m with a tolerance of 5m, such that the set intervals are open on the left and closed on the right. The total number of observations in each defined depth bin for the 1981 to 2010 and 1991 to 2020 climatology reference periods are markedly different (Figure \@ref(fig:totalobsperbin)). For the 1981 to 2010 reference period, the percent number of observations within the first ten years is `r percentCoverageText[[which(uclimyear == 1981)]]`, with `r percentZeroText[[which(uclimyear == 1981)]]` having 0\%. The remaining data was obtained during the last 20 years of the reference period, which overlaps with the 1991 to 2020 reference period. The observation distribution at each depth bin is even throughout the water column, except for the deepest bins, 90m. The lower number of observations in the first 10 years of the climatology reference period can be attributed to almost exclusively bottle observations, which have a much lower vertical resolution compared to downcast CTD profiles.
+
+For the 1991 to 2020 reference period, the percent number of observations in the last ten years is `r percentCoverageText[[which(uclimyear == 1991)]]`, which is the expected coverage. Overall, there are between `r ratioText` times more observations in the 1991 to 2020 reference period. The difference is approximately equal throughout the water column and for each variable. Increased number of observations can be attributed to an higher frequency of continuous downcast CTD occupations.
+
+When comparing the climatology for the two reference periods, while observation distribution is biased due to sampling methods, coverage of the station has been consistent.
+
+## Daily
+
+### Methods {#sec:hydroDailyMethods}
+
+At each depth bin, temperature, salinity, and density observations within the climatology reference periods were fitted against the year-day with a local polynomial regression to provide an estimate of the mean. The parameters used for the regression are a gaussian kernel weighting function, a polynomial degree of $2$, and a neighborhood size of $0.5$. In order to avoid boundary issues and to achieve continuous results, the beginning of the data set was padded with data from the last 28 days, so days 337 to 365, and the end of the data set was padded with data from the first 28 days. A local polynomial regression, with the same parameters above, was used to estimate the standard deviation following the methodology outlined by @weisberg2005.
+
+### Results {#sec:dailyResults}
+
+For reference periods 1981 to 2010 and 1991 to 2020, observation distribution at each depth bin for temperature, salinity, and density throughout the year share similar characteristics (Figures \ref{dailyFit_2.5} to \ref{dailyFit_87.5}).  In general, observation distribution is clustered around the middle of each month as the station has been sampled consistently prior to the implementation of the AZMP.
+
+The daily fits for temperature, salinity, and density at each depth bin for both reference periods are provided (Figures \ref{dailyFit_2.5} to \ref{dailyFit_87.5}). Differences between both reference periods are provided for completeness (Figure \@ref(fig:dailyClimatologySection)).  
+
+## Monthly {#sec:hydroMonthly}
+
+### Methods
+
+For each month and depth bin, the mean and standard deviation of temperature, salinity, and density, using observations within the climatology reference periods, were calculated.
+
+### Results
+
+The number of profiles used to construct the monthly climatology profiles varies between months (Figure \@ref(fig:nprofilespermonth)). Coverage for each variable is near-identical. There were more profiles for the 1981 to 2010 climatology. For the 1991 to 2020 climatology, the lowest coverage is in the month of April. This can be attributed to the ship availability.
+
+The month binned profiles for both climatology reference periods are provided (Figures \ref{monthlyFit_1}  to \ref{monthlyFit_12}). As in Section \@ref(sec:dailyResults), differences between reference periods are provided (Figure \@ref(fig:monthlyClimatologySection)).

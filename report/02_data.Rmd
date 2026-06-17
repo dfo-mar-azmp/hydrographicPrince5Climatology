@@ -1,0 +1,17 @@
+# Data {#sec:data}
+
+## Archive
+
+```{r datacoverage, echo=FALSE, warning = FALSE, message = FALSE}
+load('../analysis/data/duplicateNumbers.rda')
+```
+
+The archived continuous downcast CTD data from BIO was the primary source of data. Data from years 1981 to 2020 was searched. From years 1981 to 1999, data that fell within the defined bounds (Table \@ref(tab:boundingBoxTable)) were retained. For years 2000 to 2020, a regular mission name, `BCD[yyyy]669` where `yyyy` is the year, was used to identify sampling associated with the station. An occupation with that mission name was retained. The depth of the maximum depth of a measurement was compared to the inferred bottom depth. If the maximum measurement depth was greater than 40m off the bottom depth, the entire profile was omitted. Quality control flags were applied if available.
+
+This data crawling exercise resulted in a total of `r nArchiveCtd` occupations.
+
+## Climate database
+
+Another source of data used to attempt to fill in the time-series is the Climate database [@gregory2004]. First, data was queried from the database within the defined bounds (Table \@ref(tab:boundingBoxTable)). The depth of the maximum measurement depth was compared to the inferred bottom depth. If the the measurement depth was greater than 40m off the bottom depth, the entire profile was omitted. This data source does not have any quality control flags, therefore, if any profile had a salinity less than 25, it was omitted. Five data types were retained, this includes expendable bathythermograph (XB), tesac message (TE), CTD downcast (CD), batfish profiles (BF), and bottle measurements (BO).
+
+This data crawling exercise resulted in a total of `r nClimateCtdStart` occupations. Of these, `r nduplicatesInClimate` were classified as being duplicates, `r nduplicatesInClimateAndArchive` exist in the archive, and `r nNotIncludedType` were not one of the five data types. In total, `r nClimateCtdEnd` occupations were retained for climatology calculations.
