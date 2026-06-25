@@ -51,6 +51,10 @@ rsconnect/
 # any pdf
 *.pdf
 
+# any word docs
+*.docx
+*.doc
+
 # any produced data files
 analysis/*.rda
 analysis/netCDFclimatology
