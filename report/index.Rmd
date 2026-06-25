@@ -4,13 +4,13 @@ title: |
 french_title: |
   "Prince 5 du Programme de monitorage de la zone Atlantique de la région des Maritimes – Données hydrographiques et indicateurs, climatologie de 1991 à 2020"
 year: 2026
-report_number: nnn
+report_number: 233
 author: |
   Chantelle Layton^1^
 author_list: "Layton, C."
 region: Maritimes Region
 french_region: Région du Maritimes
-isbn: ""
+isbn: "978-0-662-41244-1"
 report_DOI: "##.####/xxxxx" # do not include https://doi.org/
 address: |
   ^1^Fisheries and Oceans Canada\
