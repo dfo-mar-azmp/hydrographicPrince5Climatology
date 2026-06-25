@@ -49,11 +49,13 @@ destDirData <- './data'
 destDirFigures <- './figures'
 destDirSuppFigures <- './supplementaryFigures'
 destDirNetCDF <- './netCDFclimatology'
+destDirCsv <- './csvClimatology'
 
 dirsToMake <- c(destDirData,
                 destDirFigures,
                 destDirSuppFigures,
-                destDirNetCDF)
+                destDirNetCDF,
+                destDirCsv)
 if(makeDirs){
   for(i in 1:length(dirsToMake)){
     if(!dir.exists(dirsToMake[i])) dir.create(dirsToMake[i], recursive = TRUE)
