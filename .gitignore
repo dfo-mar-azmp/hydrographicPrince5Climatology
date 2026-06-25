@@ -55,6 +55,7 @@ rsconnect/
 analysis/*.rda
 analysis/netCDFclimatology
 analysis/*.nc
+analysis/csvClimatology
 
 # any figures
 analysis/figures
