@@ -11,7 +11,7 @@ author_list: "Layton, C."
 region: Maritimes Region
 french_region: Région du Maritimes
 isbn: "978-0-662-41244-1"
-report_DOI: "##.####/xxxxx" # do not include https://doi.org/
+report_DOI: "10.60825/w574-h020" # do not include https://doi.org/
 address: |
   ^1^Fisheries and Oceans Canada\
      Bedford Institute of Oceanography\
