@@ -21,6 +21,10 @@ for(ic in 1:length(climatology)){
   # order by depth and yearDay
   o <- with(df, order(pressure, yearDay))
   df <- df[o, ]
+  # add coordinates ----
+  df <- data.frame(df,
+                   longitude = p5lon,
+                   latitude = p5lat)
   # define file name ----
   filename <- paste0(paste('Maritimes',
                            'AZMP',
@@ -51,6 +55,10 @@ for(ic in 1:length(climatology)){
   names(df)[names(df) == 'salinitySD'] <- 'sea_water_practical_salinity_standard_deviation'
   names(df)[names(df) == 'sigmaTheta'] <- 'sea_water_sigma_theta'
   names(df)[names(df) == 'sigmaThetaSD'] <- 'sea_water_sigma_theta_standard_deviation'
+  # add coordinates ----
+  df <- data.frame(df,
+                   longitude = p5lon,
+                   latitude = p5lat)
   # define file name ----
   filename <- paste0(paste('Maritimes',
                            'AZMP',
@@ -101,6 +109,10 @@ for(icf in 1:length(climFiles)){
     df <- df[o, ]
     # convert some rows from factor to numeric values ----
     df[['yearDay']] <- as.numeric(as.character(df[['yearDay']]))
+    # add coordinates ----
+    df <- data.frame(df,
+                     longitude = p5lon,
+                     latitude = p5lat)
     # re-name columns to be the same as the netCDF ----
     names(df)[names(df) == 'integratedTemperature'] <- paste('average_temperature', intLimits[icf], sep = '_')
     names(df)[names(df) == 'integratedTemperatureSD'] <- paste('average_temperature', intLimits[icf], 'standard_deviation', sep = '_')
@@ -179,6 +191,10 @@ for(icf in 1:length(climFiles)){
     ## order by month ----
     o <- order(df[['month']])
     df <- df[o, ]
+    # add coordinates ----
+    df <- data.frame(df,
+                     longitude = p5lon,
+                     latitude = p5lat)
     # define file name ----
     filename <- paste0(paste('Maritimes',
                              'AZMP',
